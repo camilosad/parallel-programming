@@ -1,6 +1,6 @@
 # utils
 
-ACTIVE_NUMBERS = [1, 2, 4, 6];
+ACTIVE_NUMBERS = [1, 2, 4, 7];
 
 def generate_random_between(initial_number, final_number)
   (initial_number..final_number).to_a.sample
@@ -238,5 +238,26 @@ if (ACTIVE_NUMBERS.include? 6)
   puts "Fatorial 5: #{fatorial(number.to_i)}"
 else
   puts 'NUMBER 6 SKIPPED'
+end
+
+
+#######################
+
+# 7
+
+def exp(a, b)
+  return a if b == 1
+  return a * exp(a, b - 1)
+end
+
+puts " ----------- NUMBER 7 -------------"
+if (ACTIVE_NUMBERS.include? 7)
+  print 'Insert number a: '
+  a = gets.chomp
+  print 'Insert number b: '
+  b = gets.chomp
+  puts "aˆb: #{exp(a.to_i, b.to_i)}"
+else
+  puts 'NUMBER 7 SKIPPED'
 end
 
