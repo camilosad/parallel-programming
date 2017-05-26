@@ -1,6 +1,5 @@
+ACTIVE_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8];
 # utils
-
-ACTIVE_NUMBERS = [1, 2, 4, 7];
 
 def generate_random_between(initial_number, final_number)
   (initial_number..final_number).to_a.sample
@@ -64,7 +63,7 @@ if (ACTIVE_NUMBERS.include? 1)
   print_matrix A, rows, cols
   print_output A
 else
-  puts 'NUMBER 1 SKIPPED'
+  puts 'SKIPPING IT'
 end
 
 #######################
@@ -100,7 +99,12 @@ def set_identity(matrix, result, rows, cols)
 end
 
 def ortogonal?(mmt, id)
-  mmt == id
+  mmt.each_with_index do |item1, i|
+    item1.each_with_index do |item2, j|
+      return false if item2 != id[i][j]
+    end
+  end
+  true
 end
 
 puts " ----------- NUMBER 2 -------------"
@@ -110,26 +114,26 @@ if (ACTIVE_NUMBERS.include? 2)
   range_start = 1
   range_end = 30
 
-  A = Array.new(rows) { Array.new(cols) }
-  setup_matrix A, rows, cols, range_start, range_end
+  matrix = Array.new(rows) { Array.new(cols) }
+  setup_matrix matrix, rows, cols, range_start, range_end
 
-  At = Array.new(rows) { Array.new(cols) }
-  set_transposed(A, At, rows, cols)
+  matrixT = Array.new(rows) { Array.new(cols) }
+  set_transposed(matrix, matrixT, rows, cols)
 
-  AAt = Array.new(rows) { Array.new(cols) }
-  set_product(A, At, AAt, rows, cols)
+  mmt = Array.new(rows) { Array.new(cols) }
+  set_product(matrix, matrixT, mmt, rows, cols)
 
-  Ai = Array.new(rows) { Array.new(cols) }
-  set_identity(A, Ai, rows, cols)
+  matrixI = Array.new(rows) { Array.new(cols) }
+  set_identity(matrix, matrixI, rows, cols)
 
-  print_matrix A, rows, cols
-  print_matrix At, rows, cols
-  print_matrix AAt, rows, cols
-  print_matrix Ai, rows, cols
+  print_matrix matrix, rows, cols
+  print_matrix matrixT, rows, cols
+  print_matrix mmt, rows, cols
+  print_matrix matrixI, rows, cols
 
-  puts ortogonal?(AAt, Ai) ? "Ortogonal" : "Nao Ortogonal"
+  puts ortogonal?(mmt, matrixI) ? "Ortogonal" : "Nao Ortogonal"
 else
-  puts 'NUMBER 2 SKIPPED'
+  puts 'SKIPPING IT'
 end
 
 #######################
@@ -164,15 +168,15 @@ end
 
 puts " ----------- NUMBER 3 -------------"
 if (ACTIVE_NUMBERS.include? 3)
-  A = []
-  set_array(A, 25)
+  array = []
+  set_array(array, 25)
   puts "Unsorted array"
-  print_array(A)
-  sort_array(A)
+  print_array(array)
+  sort_array(array)
   puts "Sorted array"
-  print_array(A)
+  print_array(array)
 else
-  puts 'NUMBER 3 SKIPPED'
+  puts 'SKIPPING IT'
 end
 
 
@@ -210,15 +214,15 @@ end
 
 puts " ----------- NUMBER 4 -------------"
 if (ACTIVE_NUMBERS.include? 4)
-  A = []
-  populate_array_with_randoms(A, 1, 50)
+  array = []
+  populate_array_with_randoms(array, 1, 50)
   puts "Original array"
-  print_array(A)
-  separate_even_odd(A)
+  print_array(array)
+  separate_even_odd(array)
   puts "Resulting array"
-  print_array(A)
+  print_array(array)
 else
-  puts 'NUMBER 4 SKIPPED'
+  puts 'SKIPPING IT'
 end
 
 
@@ -237,7 +241,7 @@ if (ACTIVE_NUMBERS.include? 6)
   number = gets.chomp
   puts "Fatorial 5: #{fatorial(number.to_i)}"
 else
-  puts 'NUMBER 6 SKIPPED'
+  puts 'SKIPPING IT'
 end
 
 
@@ -258,6 +262,29 @@ if (ACTIVE_NUMBERS.include? 7)
   b = gets.chomp
   puts "aˆb: #{exp(a.to_i, b.to_i)}"
 else
-  puts 'NUMBER 7 SKIPPED'
+  puts 'SKIPPING IT'
+end
+
+
+#######################
+
+# 8
+
+def find_max(array)
+  return array.first if array.size == 1
+  index_to_remove = array[0] <= array[1] ? 0 : 1
+  array.delete_at index_to_remove
+  return find_max(array)
+end
+
+puts " ----------- NUMBER 8 -------------"
+if (ACTIVE_NUMBERS.include? 8)
+  array = []
+  populate_array_with_randoms(array, 1, 40)
+  puts "Generated Array:"
+  print_array(array)
+  puts "largest number: #{find_max(array)}"
+else
+  puts 'SKIPPING IT'
 end
 
