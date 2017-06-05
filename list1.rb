@@ -1,4 +1,4 @@
-ACTIVE_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8];
+ACTIVE_NUMBERS = [5];
 # utils
 
 def generate_random_between(initial_number, final_number)
@@ -224,6 +224,73 @@ if (ACTIVE_NUMBERS.include? 4)
 else
   puts 'SKIPPING IT'
 end
+
+
+#######################
+
+# 5
+
+def wrong_position?(number, index)
+  return true if (number.even? and index.even?)
+  return true if (number.odd? and index.odd?)
+  false
+end
+
+def any_wrong_position?(array)
+  array.each_with_index{ |item, index| return true if wrong_position?(item, index) }
+  false
+end
+
+def first_invalid_element(array)
+  array.each_with_index{ |item, index| return index if wrong_position?(item, index) }
+  return nil
+end
+
+def populate_array_even_odd(array)
+  evens, odds = 0, 0
+
+  while array.size < 20 do
+    random = generate_random_between(0, 100)
+    if (random.even? and evens < 10)
+      array.push random
+      evens += 1
+    elsif (random.odd? and odds < 10)
+      array.push random
+      odds += 1
+    end
+  end
+end
+
+def organize_array(array)
+  loop do
+    array.each_with_index do |item, index|
+      if wrong_position?(item, index)
+        x = array[index]
+        sub_array = array[(x+1)..(array.size)]
+        next_invalid_index = first_invalid_element(sub_array)
+        array[index] = array[next_invalid_index]
+        array[next_invalid_index] = x
+      end
+    end
+    break if any_wrong_position?(array)
+  end
+  array
+end
+
+puts " ----------- NUMBER 5 -------------"
+if (ACTIVE_NUMBERS.include? 5)
+  array = []
+  populate_array_even_odd(array)
+  puts "Original array"
+  print_array(array)
+  puts "Resulting array"
+  print_array(array)
+else
+  puts 'SKIPPING IT'
+end
+
+
+#######################
 
 
 #######################
