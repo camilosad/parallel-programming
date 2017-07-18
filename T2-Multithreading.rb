@@ -11,4 +11,8 @@ threads = []
    }
 end
 
-threads.each {|t| t.join}
+4.times do |i|
+  threads[i].join
+end
+
+#threads.each {|t| t.join}
