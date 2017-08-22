@@ -12,9 +12,12 @@ cv = ConditionVariable.new
 soma = Thread.new{
     mutex.synchronize {
         for i in 0..2
-            for j in 0..i
-                @somatorio += @lx[i][j]
+            @somatorio = 0
+            for j in 0..i-1
+                @somatorio += Float(@lx[i][j] * @x[j])
             end
+            cv.signal
+            cv.wait(mutex)
         end
     }
 }
@@ -22,8 +25,10 @@ soma = Thread.new{
 calc_x = Thread.new{
     mutex.synchronize {
         for i in 0..2
+            cv.wait(mutex)
             @x[i] = Float((@b[i] - @somatorio) / @lx[i][i])
             puts "x#{i+1}: #{@x[i]}"
+            cv.signal
         end
     }
 }
